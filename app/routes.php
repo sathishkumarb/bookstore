@@ -23,4 +23,10 @@ Route::get('getPublishers', array('as' => 'getPublishers', 'uses' => 'IndexContr
 Route::get('checkBookname', array('as' => 'checkBookname', 'uses' => 'IndexController@checkBookname')); 
 Route::get('bookview/{id}', array('as' => 'bookview', 'uses' => 'IndexController@bookview')); 
 Route::get('searchBook', array('as' => 'searchBook', 'uses' => 'IndexController@searchBook')); 
-
+Route::get('generateListPdf', array('as' => 'generateListPdf', 'uses' => 'IndexController@generateListPdf')); 
+//REST CODES
+Route::get('booklist', array('as' => 'booklist', 'uses' => 'IndexController@booklist')); 
+Route::get('bookviewrest/{id}', array('as' => 'bookviewrest', 'uses' => 'IndexController@bookviewrest')); 
+Route::get('addbookrest', array('as' => 'addbookrest', 'uses' => 'IndexController@addbookrest')); 
+Route::get('category', array('as' => 'category', 'uses' => 'IndexController@category')); 
+ 

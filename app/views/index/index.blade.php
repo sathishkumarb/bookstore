@@ -46,7 +46,7 @@ BookStore
 				<option value="book_price">Price</option>
 				<option value="book_name">Title</option>
 				<option value="book_releasedby">Publish Date</option>
-			</select></div>
+			</select></div><a href="javascript:void(0)" id="generatepdf">Generate Pdf<a>
 			</div>
 			<div class="clearfix"></div>
 			<div class="col-md-12">
@@ -83,15 +83,22 @@ BookStore
 <div class="clearfix"></div>
 <script>
 	var page = 1;
-	$(document).on("click","#btn_search",function(){
+	$(document).on("click","#btn_search",function(){page = 1;
+		loadBooks();
+
+	});
+	$(document).on("change","#category",function(){page = 1;
 		loadBooks();
 	});
-	$(document).on("change","#category",function(){
+	$(document).on("change","#orderby",function(){page = 1;
 		loadBooks();
 	});
-	$(document).on("change","#orderby",function(){
-		loadBooks();
+	$(document).on("click","#generatepdf",function(){
+		var url = "{{{ URL::to('generateListPdf') }}}";
+		url+='?name='+$("#search_book").val()+'&category='+$("#category").val()+'&order='+$("#orderby").val();
+		window.open(url,'_blank');		
 	});
+	
 	function loadmore(){page++;loadBooks();};
 	function loadBooks(){
 		var url = "{{{ URL::to('searchBook') }}}";	

@@ -8,11 +8,7 @@ BookStore::{{$book_details->book_name}}
 {{-- Content --}}
 @section('content')
 <div class="pricing-plans" id="prices">
-	
-
-	<!-- Your share button code -->
-	<a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost/bookstore/public/bookview/3" class="button button--icon button--facebook">sds</a>
-	<div class="fb-share-button" data-href="http://localhost/bookstore/public/bookview/3" data-layout="button_count"></div>
+ 
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -32,6 +28,9 @@ BookStore::{{$book_details->book_name}}
 				<div>Published Date: {{$book_details->book_releasedby}} </div> 
 				<div class="clearfix"></div>
 				<div>Price: {{$book_details->book_price}} </div> 
+				<div class="clearfix"></div>
+				<div>Share this: <a href="javascript:void(0)" id="share_button">Facebook</a><div class="g-plus" data-action="share" data-href="http://localhost/bookstore/public/bookview/{{$book_details->book_id}}"></div><a href="https://twitter.com/share" class="twitter-share-button" >Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 				<div class="clearfix"></div>
 			</div>			 
 		</div>
@@ -108,6 +107,20 @@ BookStore::{{$book_details->book_name}}
 		} 
 		}); 	
 	});
+	$(document).ready(function(){
+		$('#share_button').click(function(e){
+			e.preventDefault();
+			FB.ui(
+			{
+			method: 'feed',
+			name: '{{$book_details->book_name}}',
+			link: 'http://localhost/bookstore/public/bookview/{{$book_details->book_id}}',
+			picture: '{{ URL::asset('bookImages')}}/{{$book_details->book_cover_pic}}',
+			caption: '{{$book_details->book_description}}',
+			message: ''
+			});
+		});
+	});
 	function readURL(input) {
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();
@@ -170,4 +183,5 @@ BookStore::{{$book_details->book_name}}
 		$('#publisher').val(value);		 
 	}
 </script>
+ 
 @stop

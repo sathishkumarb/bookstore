@@ -65,7 +65,7 @@ BookStore::Add
 	var Authors = [];
 	var publishers = [];
 	$(document).ready(function() {		 
-		$( "#publish_date" ).datepicker({ changeYear: true });   
+		$( "#publish_date" ).datepicker({ changeYear: true , dateFormat: "yy-mm-dd" });   
 		LoadAuthors();
 		LoadPulishers();
 	});
