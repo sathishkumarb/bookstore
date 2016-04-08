@@ -15,13 +15,6 @@ class IndexController extends BaseController {
 	|
 	*/
 
-	/*
-	|--------------------------------------------------------------------------
-	| Book Listing and homepage
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
 	public function index()
 	{
 		$category = new Category();
@@ -35,14 +28,6 @@ class IndexController extends BaseController {
 		return View::make('Index/index')->with(array('category'=>$category,'books_list'=>$books_list));
 		
 	}
-	/*
-	|--------------------------------------------------------------------------
-	| Add Books 
-	| @return array of categories
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
 	public function addBooks(){
 		$category = new Category();
 		$category_list = $category->getCategoryList();
@@ -52,14 +37,6 @@ class IndexController extends BaseController {
 		}		 
 		return View::make('Index/add')->with(array('category'=>$category));
 	}
-	/*
-	|--------------------------------------------------------------------------
-	| add operation of book processing backend
-	| @return void    redirects to book details view of error
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
 	public function processAdd(){
 		$books = new Books();
 		$bookdata = array(
@@ -105,14 +82,6 @@ class IndexController extends BaseController {
 				return Redirect::to('add')->with(array('category'=>$category))->withErrors($validator);
 			}
 	}
-	/*
-	|--------------------------------------------------------------------------
-	| fetch authors processing backend
-	| @return json data of authjros list
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
 	public function getAuthors(){
 		$books = new Books();		 
 		$return_array = array();
@@ -120,14 +89,6 @@ class IndexController extends BaseController {
 		$author = $books->getAllAuthors(); 
 		echo json_encode($author);die();
 	}
-	/*
-	|--------------------------------------------------------------------------
-	| fetch publishers processing backend
-	| @return json data of publishers list
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
 	public function getPublishers(){
 		$books = new Books();		 
 		$return_array = array();
@@ -135,14 +96,6 @@ class IndexController extends BaseController {
 		$publishers = $books->getAllPublishers(); 
 		echo json_encode($publishers);die();
 	}
-	/*
-	|--------------------------------------------------------------------------
-	| suggest book name
-	| @return json data of books list
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
 	public function checkBookname(){
 		$name = Input::get('name');
 		$books = new Books();		 
@@ -151,14 +104,6 @@ class IndexController extends BaseController {
 		$book_list = $books->searchBook($name); 
 		echo json_encode($book_list);die();
 	}
-	/*
-	|--------------------------------------------------------------------------
-	| book view
-	| @return void, reurn to books details list
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
 	public function bookview($id){
 		if($id!='') {
 			$books = new Books();	
@@ -168,14 +113,6 @@ class IndexController extends BaseController {
 			return Redirect::to('/');
 		}
 	}
-	/*
-	|--------------------------------------------------------------------------
-	| search book
-	| @return void, reurn to books details list
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
 	public function searchBook(){
 		$name = Input::get('name');
 		$category = Input::get('category');
@@ -192,14 +129,6 @@ class IndexController extends BaseController {
 		$book_list = $books->searchBookAll($name,$category,$order,$start,10); 
 		echo json_encode($book_list);die();
 	}
-	/*
-	|--------------------------------------------------------------------------
-	| pdf list generation of books
-	| @return void, outputs pdf
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
 	public function generateListPdf(){
 		$name = Input::get('name');
 		$category = Input::get('category');
@@ -231,31 +160,11 @@ class IndexController extends BaseController {
 		$pdf->Ln();
 		$pdf->Ln();
 		}
-		$pdf->Output();
-		//Your HTML in a variable
-		$my_html = '';
+		header("Content-type: application/pdf"); 
+		$pdf->Output('D');
 		 
-
-		//Set Your Options -- we are saving the PDF as 'my_filename.pdf' to a 'my_pdfs' folder
-		$pdf_options = array(
-		  "source_type" => 'html',
-		  "source" => $my_html,
-		  "action" => 'save',
-		  "save_directory" => 'my_pdfs',
-		  "file_name" => 'my_filename.pdf');
-
-		//Code to generate PDF file from options above
-		phptopdf($pdf_options);
-		 
+ 
 	}
-	/*
-	|--------------------------------------------------------------------------
-	| bookslist rest call
-	| @return bookslist json
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
 	public function booklist(){
 		$name = Request::get('name');
 		$category = Request::get('category');
@@ -277,14 +186,7 @@ class IndexController extends BaseController {
         200
 		);
 	}
-	 /*
-	|--------------------------------------------------------------------------
-	| book detailed view rest call
-	| @return bookdetails json
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
+	 
 	public function bookviewrest($id){
 		if($id!='') {
 			$books = new Books();	
@@ -302,14 +204,6 @@ class IndexController extends BaseController {
 			);
 		}
 	}
-	/*
-	|--------------------------------------------------------------------------
-	| add book rest call
-	| @return succes or failure json
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
 	public function addbookrest(){
 		$books = new Books();
 		$bookdata = array(
@@ -369,4 +263,7 @@ class IndexController extends BaseController {
         200
 		);
 	}
+	
+	
 }
+ 
